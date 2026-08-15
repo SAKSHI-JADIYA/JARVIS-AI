@@ -3,6 +3,7 @@ import webbrowser
 import pyttsx3
 import requests
 import musiclibrary
+import ollama
 
 recognizer = sr.Recognizer()
 newsapi = "pub_ab1b518f74cb4d5fb8d38a2711c4412f"
@@ -17,6 +18,32 @@ def speak(text):
     engine.say(text)
     engine.runAndWait()
     del engine  # Destroy the instance to free audio drivers
+
+def aiProcess(command):
+    """
+    Sends the user's voice command to the locally running llama3.1
+    model via Ollama and returns the generated response.
+    """
+    try:
+        response = ollama.chat(
+            model = "llama3.1",
+            messages=[
+                {
+                    'role':'system',
+                    'content': 'You are a well-behaved and polite virtual assistant named Jarvis. '
+                               'Give short, direct, and to-the-point answers. '
+                               'Use simple, easy, and clearly understandable Indian English words. '
+                               'Answers should be 2-3 lines long'
+                },
+                {
+                    'role':'user',
+                    'content':command 
+                }
+            ]
+        )
+        return response['message']['content']
+    except Exception as e:
+        return f"Sorry, I encountered an error connecting to Ollama: {str(e)}"
 
 def processCommand(c):
     if "open google" in c.lower():
@@ -59,6 +86,8 @@ def processCommand(c):
             speak("Sorry, I am facing an API connection issue.")
     else:
         #ai integration
+        output = aiProcess(c)
+        speak(output)
 
 
 
