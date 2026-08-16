@@ -40,7 +40,7 @@ def aiProcess(command):
             messages=[
                 {
                     'role':'system',
-                    'content': 'You are a well-behaved and polite virtual assistant named Friday. '
+                    'content':'You are a well-behaved and polite virtual assistant named Friday. '
                                'Give short, direct, and to-the-point answers. '
                                'Use simple, easy, and clearly understandable Indian English words. '
                                'Answers should be 2-3 lines long.'
