@@ -28,6 +28,9 @@ The integrated local LLM processes text under an ironclad system prompt structur
 * **Length Constraints**: Restricts the maximum response ceiling strictly to 2–3 text lines to keep audio playback short and focused.
 * **Language Profiling**: Uses clear, simple, and naturally recognizable Indian English words to match regional speech expectations perfectly.
 
+
+<img width="1408" height="768" alt="image" src="https://github.com/user-attachments/assets/ceacaff2-22af-4174-83df-b9a454ce056e" />
+
 ---
 
 ## 🛠️ System Prerequisites & Local LLM Setup
