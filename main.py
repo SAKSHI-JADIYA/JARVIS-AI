@@ -40,7 +40,7 @@ def aiProcess(command):
             messages=[
                 {
                     'role':'system',
-                    'content': 'You are a well-behaved and polite virtual assistant named Vyom. '
+                    'content': 'You are a well-behaved and polite virtual assistant named Friday. '
                                'Give short, direct, and to-the-point answers. '
                                'Use simple, easy, and clearly understandable Indian English words. '
                                'Answers should be 2-3 lines long.'
@@ -86,7 +86,7 @@ def processCommand(c):
                 headline = article.get('title')
                 if headline:
                     headline = headline.replace(" - ", " from ").replace(" — ", " from ")
-                    print(f"Vyom says: {headline}")
+                    print(f"Friday says: {headline}")
                     speak(headline)
         else:
             print(f"API Error Code: {r.status_code}")
@@ -169,7 +169,7 @@ def show_history():
 
 
 if __name__ == "__main__":
-    speak("Initializing Vyom.....")
+    speak("Initializing Friday.....")
     
     # Calibrate background noise once at startup
     with sr.Microphone() as source:
@@ -177,7 +177,7 @@ if __name__ == "__main__":
         recognizer.adjust_for_ambient_noise(source, duration=1)
         
     while True: 
-        print("\nListening for wake word 'Vyom'...")
+        print("\nListening for wake word 'Friday'...")
         
         # STEP 1: Open mic ONLY to listen for the wake word
         with sr.Microphone() as source:
@@ -192,9 +192,9 @@ if __name__ == "__main__":
                 continue
 
         # Mic is CLOSED here. Safe for pyttsx3 to speak.
-        if "vyom" in word.lower():
+        if "friday" in word.lower():
             speak("Ya")
-            print("Vyom Active... Speak your command.")
+            print("Friday Active... Speak your command.")
             
             # STEP 2: Reopen mic ONLY to listen for the command
             with sr.Microphone() as source:
