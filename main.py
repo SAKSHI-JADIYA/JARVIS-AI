@@ -65,13 +65,15 @@ def processCommand(c):
     elif "open linkedin" in c.lower():
         webbrowser.open("https://linkedin.com")
     elif c.lower().startswith("play"):
-        song = c.lower().split(" ")
+        song = c.lower().replace("play ", "", 1)   # remove the word "play"
         link = musiclibrary.music[song]
         webbrowser.open(link)
+
+
    
     elif "news" in c.lower():
         speak("Fetching latest Indian headlines in English.")
-        url = f"https://newsdata.io{newsapi}&language=en&country=in"
+        url = f"https://newsdata.io/api/1/latest?apikey={newsapi}&language=en&country=in"
         r = requests.get(url)
         
         if r.status_code == 200:
