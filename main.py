@@ -4,9 +4,14 @@ import pyttsx3
 import requests
 import musiclibrary
 import ollama
+from dotenv import load_dotenv
+import os
+import json, time
 
 recognizer = sr.Recognizer()
-newsapi = "pub_ab1b518f74cb4d5fb8d38a2711c4412f"
+newsapi = os.getenv('NEWS_API_KEY')
+HISTORY_FILE = "history.json"
+EXPIRY_SECONDS = 86400
 
 
 def speak(text):
@@ -62,7 +67,7 @@ def processCommand(c):
     elif "news" in c.lower():
         speak("Fetching latest Indian headlines in English.")
         # FIX 1: Filtered URL by language and country
-        url = f"https://newsdata.io/api/1/latest?apikey=pub_ab1b518f74cb4d5fb8d38a2711c4412f&language=en&country=in"
+        url = f"https://newsdata.io/api/1/latest?apikey={newsapi}&language=en&country=in"
         r = requests.get(url)
         
         if r.status_code == 200:
@@ -84,10 +89,52 @@ def processCommand(c):
         else:
             print(f"API Error Code: {r.status_code}")
             speak("Sorry, I am facing an API connection issue.")
+    elif "history" in c.lower():
+        show_history()
+    
+    
     else:
         #ai integration
         output = aiProcess(c)
         speak(output)
+        save_history(c)
+
+def save_history(command):
+    entry = {"event": f"Command heard: {command}", "timestamp": time.time()}
+    with open(HISTORY_FILE, "a") as f:
+        f.write(json.dumps(entry) + "\n")
+
+def cleanup_history():
+    """Remove entires older than 24 hours"""
+    if not os.path.exists(HISTORY_FILE):
+        return
+
+    fresh_entries=[]
+    now = time.time()
+
+    with open(HISTORY_FILE, "r") as f:
+        for line in f:
+            try:
+                entry = json.loads(line.strip())
+                if now - entry ["timestamp"] <= EXPIRY_SECONDS:
+                    fresh_entries.append(entry)
+            except:
+                continue
+
+    with open (HISTORY_FILE, "w") as f:
+        for entry in fresh_entries:
+            f.write(json.dumps(entry)+ "\n")
+
+def show_history():
+    cleanup_history()  # remove entries older than 24 hrs
+    if not os.path.exists(HISTORY_FILE):
+        speak("No history found.")
+        return
+    
+    # Open the file in default editor
+    os.system(f"notepad {HISTORY_FILE}")   # Windows
+    
+
 
 
 
