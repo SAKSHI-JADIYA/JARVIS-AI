@@ -70,23 +70,13 @@ venv\Scripts\Activate.ps1
 source venv/bin/activate
 ```
 
-### Step 2: Clean Dependency Standardization
-To fix configuration inconsistencies caused by raw `pip freeze` logs, use a clean, platform-agnostic, top-level `requirements.txt`. Save the lines below as your **`requirements.txt`**:
+### Step 2: Install Dependencies from requirements.txt
+Since you already provided a requirements.txt with exact module versions, simply run the following inside your activated environment:
 
-```text
-speechrecognition
-pyttsx3
-requests
-ollama
-python-dotenv
-pycryptodome
-pyaudio
-```
-
-Execute the installation block inside your activated environment:
 ```bash
 pip install -r requirements.txt
 ```
+This ensures all modules are installed with the precise versions you specified, avoiding inconsistencies across different systems.
 
 ### Step 3: Populate Local Secrets (`.env`)
 Create a hidden file named `.env` in your project root folder and specify your operational configurations:
